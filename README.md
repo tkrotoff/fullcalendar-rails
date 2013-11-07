@@ -1,3 +1,5 @@
+**I will not continue to maintain this gem as I don't use Rails asset pipeline anymore.**
+
 # FullCalendar for Rails
 
 FullCalendar packaged for the Rails 3.1+ asset pipeline.
