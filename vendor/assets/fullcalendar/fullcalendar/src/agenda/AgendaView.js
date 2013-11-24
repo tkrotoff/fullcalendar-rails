@@ -13,7 +13,8 @@ setDefaults({
 		agenda: .5
 	},
 	minTime: 0,
-	maxTime: 24
+	maxTime: 24,
+	slotEventOverlap: true
 });
 
 
@@ -97,7 +98,6 @@ function AgendaView(element, calendar, viewName) {
 	var slotContainer;
 	var slotSegmentContainer;
 	var slotTable;
-	var slotTableFirstInner;
 	var selectionHelper;
 	
 	var viewWidth;
@@ -262,7 +262,6 @@ function AgendaView(element, calendar, viewName) {
 			"</tbody>" +
 			"</table>";
 		slotTable = $(s).appendTo(slotContainer);
-		slotTableFirstInner = slotTable.find('div:first');
 		
 		slotBind(slotTable.find('td'));
 	}
@@ -321,6 +320,7 @@ function AgendaView(element, calendar, viewName) {
 			"<tr>";
 
 		if (showWeekNumbers) {
+			date = cellToDate(0, 0);
 			weekText = formatDate(date, weekNumberFormat);
 			if (rtl) {
 				weekText += weekNumberTitle;
@@ -445,7 +445,9 @@ function AgendaView(element, calendar, viewName) {
 		
 		slotScroller.height(bodyHeight - allDayHeight - 1);
 		
-		slotHeight = slotTableFirstInner.height() + 1; // +1 for border
+		// the stylesheet guarantees that the first row has no border.
+		// this allows .height() to work well cross-browser.
+		slotHeight = slotTable.find('tr:first').height() + 1; // +1 for bottom border
 
 		snapRatio = opt('slotMinutes') / snapMinutes;
 		snapHeight = slotHeight / snapRatio;
